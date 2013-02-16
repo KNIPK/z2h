@@ -1,0 +1,209 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.edu.pk.kni.jaworek.szachyTest;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author user
+ */
+public class SzachownicaGUI extends javax.swing.JPanel {
+
+    Pole zaznaczonePole;
+    Szachownica szachownica;
+    static BufferedImage tlo = null;
+    static BufferedImage pionekBialy = null;
+    static BufferedImage krolBialy = null;
+    static BufferedImage konBialy = null;
+    static BufferedImage krolowaBiala = null;
+    static BufferedImage wiezaBiala = null;
+    static BufferedImage lauferBialy = null;
+    static BufferedImage pionekCzarny = null;
+    static BufferedImage krolCzarny = null;
+    static BufferedImage konCzarny = null;
+    static BufferedImage krolowaCzarna = null;
+    static BufferedImage wiezaCzarny = null;
+    static BufferedImage lauferCzarny = null;
+
+    static {
+        try {
+            tlo = ImageIO.read(new File("img/board.jpg"));
+            pionekBialy = ImageIO.read(new File("img/PionekBialy.png"));
+            krolBialy = ImageIO.read(new File("img/KrolBialy.png"));
+            konBialy = ImageIO.read(new File("img/KonBialy.png"));
+            krolowaBiala = ImageIO.read(new File("img/KrolowaBiala.png"));
+            wiezaBiala = ImageIO.read(new File("img/WiezaBiala.png"));
+            lauferBialy = ImageIO.read(new File("img/LauferBialy.png"));
+            pionekCzarny = ImageIO.read(new File("img/PionekCzarny.png"));
+            krolCzarny = ImageIO.read(new File("img/KrolCzarny.png"));
+            konCzarny = ImageIO.read(new File("img/KonCzarny.png"));
+            krolowaCzarna = ImageIO.read(new File("img/KrolowaCzarna.png"));
+            wiezaCzarny = ImageIO.read(new File("img/WiezaCzarna.png"));
+            lauferCzarny = ImageIO.read(new File("img/LauferCzarny.png"));
+        } catch (IOException ex) {
+            System.out.print("Nie udało się załadować plików graficznych!");
+        }
+    }
+
+    /**
+     * Creates new form SzachownicaGUI
+     */
+    public SzachownicaGUI() {
+        initComponents();
+        szachownica = new Szachownica();
+    }
+
+    private Image jakiObrazekOdpowiadaFigurze(Figura figura) {
+        if (figura != null) {
+            if (figura.kolor == KolorGracza.BIALY) {
+                switch (figura.jakaJestesFigura()) {
+                    case KON:
+                        return SzachownicaGUI.konBialy;
+                    case KROL:
+                        return SzachownicaGUI.krolBialy;
+                    case KROLOWA:
+                        return SzachownicaGUI.krolowaBiala;
+                    case WIEZA:
+                        return SzachownicaGUI.wiezaBiala;
+                    case PIONEK:
+                        return SzachownicaGUI.pionekBialy;
+                    case LAUFER:
+                        return SzachownicaGUI.lauferBialy;
+                    default:
+                        return null;
+
+                }
+            } else {
+                switch (figura.jakaJestesFigura()) {
+                    case KON:
+                        return SzachownicaGUI.konCzarny;
+                    case KROL:
+                        return SzachownicaGUI.krolCzarny;
+                    case KROLOWA:
+                        return SzachownicaGUI.krolowaCzarna;
+                    case WIEZA:
+                        return SzachownicaGUI.wiezaCzarny;
+                    case PIONEK:
+                        return SzachownicaGUI.pionekCzarny;
+                    case LAUFER:
+                        return SzachownicaGUI.lauferCzarny;
+                    default:
+                        return null;
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2 = (Graphics2D) g;
+
+
+        g2.drawImage(tlo, 0, 0, this);
+
+        if (zaznaczonePole != null) {
+            Point wspolrzedneZaznaczenia = poleNaWspolrzedne(zaznaczonePole);
+            g2.drawRect(wspolrzedneZaznaczenia.x, wspolrzedneZaznaczenia.y, 50, 50);
+        }
+
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 8; j++) {
+                Pole pole = new Pole(i, j);
+                Image figura = jakiObrazekOdpowiadaFigurze(szachownica.ktoryPionekStoiNa(pole));
+                g2.drawImage(figura, poleNaWspolrzedne(pole).x, poleNaWspolrzedne(pole).y, null);
+
+            }
+
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 551, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 473, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private Point poleNaWspolrzedne(Pole pole) {
+        int x = (pole.getLitera() - 1) * 50;
+        int y = 400 - (pole.getCyfra()) * 50;
+        return new Point(x, y);
+    }
+
+    private Pole wspolrzedneNaPole(int x, int y) {
+        int cyfra = ((400 - y) / 50) + 1;
+        int litera = (x / 50) + 1;
+        return new Pole(cyfra, litera);
+    }
+    
+    public void nowaGra(){
+        szachownica.nowaGra();
+        repaint();
+    }
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+// wersja pośrednia. 
+//        String komunikat = "Kliknięto myszką na: ";
+//        komunikat += evt.getX();
+//        komunikat += ", ";
+//        komunikat += evt.getY();
+//        Pole p = wspolrzedneNaPole(evt.getX(), evt.getY());
+//        komunikat += "\nPole: ";
+//        komunikat += p.cyfra;
+//        komunikat += ", ";
+//        komunikat += p.getLitera();
+//        JOptionPane.showMessageDialog(this, komunikat)
+        if (zaznaczonePole == null || szachownica.ktoryPionekStoiNa(zaznaczonePole) == null) {
+            zaznaczonePole = wspolrzedneNaPole(evt.getX(), evt.getY());
+        } else {
+            Pole nowe = wspolrzedneNaPole(evt.getX(), evt.getY());
+            try {
+                szachownica.przeniesPionek(zaznaczonePole, nowe);
+            } catch (Exception ex) {
+              JOptionPane.showMessageDialog(this, ex.getMessage(), "Blad!", JOptionPane.ERROR_MESSAGE);
+            }
+            zaznaczonePole = null;
+        }
+
+        repaint();
+
+
+    }//GEN-LAST:event_formMouseClicked
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+}
